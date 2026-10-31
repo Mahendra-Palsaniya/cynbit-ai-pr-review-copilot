@@ -110,7 +110,22 @@ with st.sidebar:
     )
     st.markdown("### ◈ AI PR REVIEW\nCOPILOT")
     st.caption("Python review assistance")
-    icons = dict(zip(NAV, ["?", "?", "?", "?", "?", "?", "?", "?", "?"]))
+    icons = dict(
+        zip(
+            NAV,
+            [
+                ":material/dashboard:",
+                ":material/code:",
+                ":material/merge:",
+                ":material/history:",
+                ":material/security:",
+                ":material/check_circle:",
+                ":material/analytics:",
+                ":material/settings:",
+                ":material/info:",
+            ],
+        )
+    )
     page = st.radio(
         "Workspace navigation",
         NAV,
@@ -145,7 +160,7 @@ with heading:
     st.caption("Evidence first. AI suggestions with human judgment.")
 with badge:
     st.markdown(
-        '<span class="pill low">● STATIC ENGINE READY</span>', unsafe_allow_html=True
+        '<span class="pill low">PYTHON WORKSPACE</span>', unsafe_allow_html=True
     )
 
 if page == "Settings":
@@ -231,7 +246,7 @@ if page == "Review History" and not st.session_state.history:
 if page in ("Dashboard", "Code Review", "Pull Requests"):
     with st.expander(
         "New review · Paste or upload Python",
-        expanded=st.session_state.active is None or page == "Code Review",
+        expanded=page == "Code Review",
     ):
         left_input, right_input = st.columns([3, 2])
         with left_input:
