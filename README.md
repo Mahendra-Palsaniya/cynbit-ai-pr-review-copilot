@@ -50,12 +50,16 @@ This is a trusted-user prototype, not a hardened public service: input size and 
 
 Start command: `python -m streamlit run app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true`
 
-Build command: `pip install -r requirements.txt`; Python 3.11; health path `/_stcore/health`. Use the private GitHub repository through an authorized hosting connection. Leave the API key unset for the first demo. Render connector access failed during delivery, so no public deployment has been verified. See `docs/DEPLOYMENT.md` for status and exact steps.
+Build command: `pip install -r requirements.txt`; Python 3.11; health path `/_stcore/health`. The repository is public at the owner's request. Leave the API key unset for the first demo. Render deployment is pending verification; see the deployment status document. See `docs/DEPLOYMENT.md` for status and exact steps.
 
 ## Reports
 
 - [AI Opportunity Report](docs/AI_OPPORTUNITY.md)
 - [Technical Approach Report](docs/TECHNICAL_APPROACH.md)
+- [AI Opportunity PDF](docs/AI_OPPORTUNITY.pdf)
+- [Technical Approach PDF](docs/TECHNICAL_APPROACH.pdf)
 - [Deployment and verification status](docs/DEPLOYMENT.md)
 
 Pinned direct dependencies are supplied; transitive dependencies are not locked. No license grant is assumed; add your preferred license before external redistribution.
+
+GitHub Actions passed on the initial implementation commit: https://github.com/Mahendra-Palsaniya/cynbit-ai-pr-review-copilot/actions/runs/41174769485

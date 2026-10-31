@@ -2,9 +2,9 @@
 
 31 October 2026
 
-Local implementation, lint, security scan and 17 tests verified. Evaluation results are committed separately from proposed benefits. Private repository creation was confirmed through GitHub metadata. Remote push and hosted availability require independent confirmation; no live URL is claimed here.
+Local implementation, lint, security scan and 17 tests verified. Evaluation results are committed separately from proposed benefits. Repository creation, public visibility (explicitly requested by the owner), and Git push were confirmed. Initial GitHub Actions passed on Linux in run 41174769485. Hosted availability still requires independent confirmation; no live URL is claimed here.
 
-Render MCP workspace listing failed with Transport closed. Reconnect Render in Codex, then list workspaces and identify the intended workspace before creating a service. No paid service is authorized by this runbook.
+The owner approved My Workspace and a free service, with AI API access disabled. Workspace listing recovered, but service-creation calls encountered transport failures. An earlier private-repository attempt was rejected as unfetchable. The repository was then made public at the owner's request. Render dashboard sign-in is available as a fallback. No paid service is authorized.
 
 Once access is restored, create a Python web service from the repository main branch, build with `pip install -r requirements.txt`, start with `python -m streamlit run app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true`, set Python 3.11, use health path `/_stcore/health`, and leave OPENAI_API_KEY unset. Select only an explicitly approved plan. If the private repo is unavailable, authorize this repository in the hosting provider's GitHub integration rather than making it public as a workaround.
 
