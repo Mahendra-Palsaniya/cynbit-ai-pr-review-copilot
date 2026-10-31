@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-31",
+  "platform": "Streamlit Community Cloud",
+  "url": "https://cynbit-ai-pr-review-copilot.streamlit.app/",
+  "verified_functional_release": "2ecf49b4f0d736b603ab6aa9af6e4a1f99a7620e",
+  "clean_linux_ci": "https://github.com/Mahendra-Palsaniya/cynbit-ai-pr-review-copilot/actions/runs/41193779051",
+  "public_pr": "https://github.com/psf/black/pull/5638",
+  "review_id": "REV-5E69E04D",
+  "python_files_analyzed": 1,
+  "findings": 8,
+  "finding_interpretation": "F821 static name warnings in a formatting fixture; not eight confirmed bugs",
+  "skipped": {
+    "CHANGES.md": "Not Python",
+    "src/black/linegen.py": "Over 50 KB"
+  },
+  "pr_head": "3fd5966c0c63d86965f03dd132fbde7263284ed0",
+  "json_download": "Downloaded and validated against Review schema",
+  "pdf_download": "Downloaded, PDF header verified, first page rendered and visually inspected",
+  "pdf_renderer_warnings": [
+    "No display font for Symbol",
+    "No display font for ArialUnicode"
+  ],
+  "pdf_note": "First page was readable despite renderer font warnings; filename omission found and fixed with regression test",
+  "pasted_review": {
+    "id": "REV-862F210F",
+    "file": "demo_review.py",
+    "findings": 4,
+    "static_seconds": 0.43,
+    "key_free_context": "EMPTY_INPUT_DIVISION detected"
+  },
+  "openai": "Disabled; no live API test",
+  "comment_publishing": "Not performed; mock tests only",
+  "viewports_observed": [
+    [
+      1280,
+      720
+    ],
+    [
+      615,
+      524
+    ]
+  ],
+  "local_full_suite": {
+    "passed": 83,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 74.06
+  },
+  "local_http_startup": "Blocked at Windows asyncio socketpair; AppTest passes",
+  "upload_review": {
+    "file": "live_sample.py",
+    "id": "REV-2D0F3065",
+    "findings": 3,
+    "AST": "completed",
+    "ruff": "completed",
+    "bandit": "completed"
+  }
+}

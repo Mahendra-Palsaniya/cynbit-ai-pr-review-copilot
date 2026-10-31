@@ -170,6 +170,24 @@ def test_patch_reconstruction_and_mismatch():
         apply_patch("different\n", "@@ -1 +1 @@\n-x=1\n+x=2\n")
 
 
+def test_pdf_preserves_per_file_location(monkeypatch):
+    import copilot.export as exporter
+
+    result = review_code("missing_name\n", "first.py")
+    result.filename = "owner/repository#1"
+    result.findings[0].filename = "src/second.py"
+    paragraphs = []
+    original = exporter.Paragraph
+
+    def capture(text, style):
+        paragraphs.append(text)
+        return original(text, style)
+
+    monkeypatch.setattr(exporter, "Paragraph", capture)
+    assert exporter.review_pdf(result).startswith(b"%PDF-")
+    assert any("src/second.py | Ruff / F821 | lines 1-1" in p for p in paragraphs)
+
+
 def test_ui_result_survives_filter_rerun():
     app = AppTest.from_file("app.py", default_timeout=15).run()
     next(b for b in app.button if b.label == "Review code").click().run(timeout=30)

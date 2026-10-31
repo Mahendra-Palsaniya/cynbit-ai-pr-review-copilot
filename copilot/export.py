@@ -35,7 +35,7 @@ def review_pdf(review: Review) -> bytes:
     for finding in review.findings:
         paragraph(f"{finding.severity.upper()} | {finding.title}", "Heading2")
         paragraph(
-            f"{finding.source} / {finding.rule} | lines {finding.line_start}-{finding.line_end}"
+            f"{finding.filename or review.filename} | {finding.source} / {finding.rule} | lines {finding.line_start}-{finding.line_end}"
         )
         for label, value in [
             ("Evidence", finding.evidence),

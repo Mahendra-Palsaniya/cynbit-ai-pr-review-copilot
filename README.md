@@ -6,7 +6,7 @@ A hybrid Python review assistant for the Cynbit AI/ML Engineer Intern assessment
 
 **Repository:** https://github.com/Mahendra-Palsaniya/cynbit-ai-pr-review-copilot
 
-**Improvement branch:** improvement/submission-audit. The baseline live app has been verified; this branch's release awaits approval and live verification.
+**Improvement branch:** improvement/submission-audit. The PR/key-free release is published on main and verified on the existing Streamlit Community Cloud app.
 
 ## Overview and problem
 
@@ -35,8 +35,12 @@ The supplied dark developer interface is the visual reference. Actual screenshot
 
 ```mermaid
 flowchart LR
-    I[Paste / upload] --> V[Validate]
+    PR[Validated GitHub PR URL] --> API[Metadata / immutable blobs / diffs]
+    API --> V[Validate]
+    I[Paste / upload] --> V
     V --> A[AST structure]
+    A --> K[Key-free contextual heuristics]
+    K --> N[Normalized findings]
     A --> S[Ruff / Bandit subprocesses]
     S --> N[Normalized findings]
     N --> L{Consented AI enabled?}
@@ -92,7 +96,7 @@ python -m venv .venv
 .venv/Scripts/python -m streamlit run app.py
 ```
 
-On Linux/macOS, substitute `.venv/bin/python` for `.venv/Scripts/python`. Until merged, improvements reside on the named branch. The published main branch may still be the baseline. A restricted Windows environment in this audit stalled at asyncio socket-pair creation; that is recorded as a local standalone-server verification limit, while AppTest runs successfully.
+On Linux/macOS, substitute `.venv/bin/python` for `.venv/Scripts/python`. The approved improvements are published on main and improvement/submission-audit. A restricted Windows environment in this audit stalled at asyncio socket-pair creation; that is recorded as a local standalone-server verification limit, while AppTest runs successfully.
 
 ## API key configuration
 
@@ -187,7 +191,7 @@ See the Technical Approach Report for limitations and raw JSON files in evaluati
 .venv/Scripts/python evaluate.py
 ```
 
-Tests cover actual analyzers, invalid/empty/large/encoded uploads, non-execution, tool failures, structured AI success and malformed output, provider errors, aggregation, PDF generation and UI navigation. AppTest uses a bounded 15-second UI startup timeout to accommodate the audit host. GitHub Actions is configured for Python 3.11; fresh remote CI is verified only after publishing changes.
+Tests cover actual analyzers, invalid/empty/large/encoded uploads, non-execution, tool failures, structured AI success and malformed output, provider errors, aggregation, PDF generation and UI navigation. AppTest uses a bounded 15-second UI startup timeout to accommodate the audit host. GitHub Actions is configured for Python 3.11; the clean Linux CI build passed after publication, including pip check, lint, Bandit, tests and fixture evaluation.
 
 ## Deployment
 
@@ -237,10 +241,20 @@ GitHub reads use a 12-second timeout, a 2 MB response limit and 30 requests/minu
 
 ## Recorded release verification
 
-The prior release `31520381172776403305687e37ea7f0754548c21` was verified live on Streamlit Community Cloud; its GitHub Actions run succeeded. This new PR/key-free release has **82 passed, 0 failed, 0 skipped** local tests (61.597 seconds), with mocked GitHub network/publishing tests and actual AST/Ruff/Bandit execution. Live PR networking and clean installation of the new lock must still be checked after approved publication. No live OpenAI call or real comment publication is claimed.
+The prior release `31520381172776403305687e37ea7f0754548c21` was verified live on Streamlit Community Cloud; its GitHub Actions run succeeded. This new PR/key-free release has **83 passed, 0 failed, 0 skipped** local tests (74.06 seconds), with mocked GitHub network/publishing tests and actual AST/Ruff/Bandit execution. Live public PR networking and clean Linux installation of the lock were verified after approved publication. No live OpenAI call or real comment publication is claimed.
 
 Actual narrow-viewport screenshots of the running prior release:
 
 ![Dashboard](docs/screenshots/dashboard.jpg)
 
 ![Code review input](docs/screenshots/code-input.jpg)
+
+The current public PR/key-free build was tested live. See `evaluation/release_verification.json` and the final audit table in the Technical Approach Report. Actual screenshots:
+
+![Real GitHub PR review](docs/screenshots/pull-request.jpg)
+
+![Security findings](docs/screenshots/security.jpg)
+
+![Key-free suggestions](docs/screenshots/suggestions.jpg)
+
+The runtime PDF exporter now includes each finding's filename, including multi-file PR reports. A regression test protects that location information. The original two report deliverables remain the only report documents in docs/; screenshots and machine-readable evaluation evidence are supporting assets.

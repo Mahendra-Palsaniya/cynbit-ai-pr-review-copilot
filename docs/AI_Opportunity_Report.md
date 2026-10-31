@@ -118,7 +118,7 @@ Measured static results and testing details are in the Technical Approach Report
 
 ## 14. Future scope
 
-PR retrieval and changed-line mapping are implemented in the current local release. A controlled next phase could add a least-privilege GitHub App; independently annotated evaluation; team authentication and quotas; repository-context retrieval; and isolated regression-test execution. Multi-language support and educational integration would follow demonstrated user value. None of these future items is presented as implemented.
+PR retrieval and changed-line mapping are implemented in the published release. A controlled next phase could add a least-privilege GitHub App; independently annotated evaluation; team authentication and quotas; repository-context retrieval; and isolated regression-test execution. Multi-language support and educational integration would follow demonstrated user value. None of these future items is presented as implemented.
 
 ## 15. Conclusion
 
