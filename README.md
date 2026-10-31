@@ -2,6 +2,8 @@
 
 A Python and Streamlit assessment prototype for reviewing complete Python source files using Ruff, Bandit, custom AST checks, and optional OpenAI commentary. Independent assessment work; not an official Cynbit product.
 
+**Live demo:** https://cynbit-ai-pr-review-copilot.streamlit.app/
+
 ## Run from scratch
 
 Requires Python 3.11 and internet access for dependency installation.
@@ -48,7 +50,7 @@ This is a trusted-user prototype, not a hardened public service: input size and 
 
 ## Hosting on Streamlit Community Cloud
 
-The owner selected Streamlit Community Cloud. In your workspace choose Create app, deploy from GitHub, select `Mahendra-Palsaniya/cynbit-ai-pr-review-copilot`, branch `main`, main file `app.py`, and Python 3.11 in Advanced settings. Leave secrets empty for the no-key demo, then deploy. Verify an actual review and JSON download before sharing the resulting URL. A live URL will be recorded only after verification. See `docs/DEPLOYMENT.md` for status.
+The owner selected Streamlit Community Cloud. In your workspace choose Create app, deploy from GitHub, select `Mahendra-Palsaniya/cynbit-ai-pr-review-copilot`, branch `main`, main file `app.py`, and Python 3.11 in Advanced settings. Leave secrets empty for the no-key demo, then deploy. Verify an actual review and JSON download before sharing the resulting URL. Live deployment verified on 31 October 2026: all three analyzers completed, JSON export contained F401/B307/MUTABLE_DEFAULT, and the no-key fallback preserved static results. See `docs/DEPLOYMENT.md` for status.
 
 ## Reports
 

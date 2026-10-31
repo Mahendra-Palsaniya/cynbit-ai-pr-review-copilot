@@ -46,7 +46,7 @@ Seventeen pytest tests passed, including real-tool integration, source non-execu
 
 ### Deployment and next work
 
-The owner selected Streamlit Community Cloud using the public GitHub repository, main branch, app.py entrypoint and Python 3.11. Initial deployment leaves the optional API key unset. Public hosting awaits completion of the account sign-in and live verification; no deployed URL is claimed. Render deployment was canceled at the owner's request. Before production use add authentication, quotas, operational monitoring, controlled upgrades, independent benchmark labeling and a secure GitHub App flow. PR support requires base/head source retrieval, changed-line mapping, repository trust rules and human-approved publishing; these are future features.
+The owner selected Streamlit Community Cloud using the public GitHub repository, main branch, app.py entrypoint and Python 3.11. Initial deployment leaves the optional API key unset. Public hosting is live at https://cynbit-ai-pr-review-copilot.streamlit.app/ (verified 31 October 2026). A hosted sample completed all three analyzers, its JSON export contained the expected three rule IDs, and the no-key fallback preserved the results. Render deployment was canceled at the owner's request. Before production use add authentication, quotas, operational monitoring, controlled upgrades, independent benchmark labeling and a secure GitHub App flow. PR support requires base/head source retrieval, changed-line mapping, repository trust rules and human-approved publishing; these are future features.
 
 ### References
 

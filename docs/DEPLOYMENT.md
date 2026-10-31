@@ -4,7 +4,7 @@
 
 The owner selected Streamlit Community Cloud and canceled Render deployment. No successful Render service creation was confirmed. The repository is public as explicitly requested by the owner.
 
-Verified: local 17-test suite, Ruff and Bandit application scans, synthetic evaluation, successful initial Linux GitHub Actions run 41174769485, Git push, ZIP integrity, and visual PDF QA. Community Cloud deployment awaits a signed-in browser workspace. Do not claim a live URL before actual verification.
+Verified: local 17-test suite, Ruff and Bandit application scans, synthetic evaluation, successful initial Linux GitHub Actions run 41174769485, Git push, ZIP integrity, and visual PDF QA. Community Cloud deployment is live and verified at https://cynbit-ai-pr-review-copilot.streamlit.app/ on 31 October 2026 at approximately 12:35 IST. Verified: successful three-analyzer review, JSON download content and no-key fallback. The downloaded synthetic review is preserved in evaluation/hosted-review.json.
 
 ## Deployment settings
 

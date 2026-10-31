@@ -1,0 +1,14 @@
+{
+  "url": "https://cynbit-ai-pr-review-copilot.streamlit.app/",
+  "date": "2026-10-31",
+  "timezone": "Asia/Calcutta",
+  "checks": {
+    "AST": "completed",
+    "ruff": "completed",
+    "bandit": "completed",
+    "json_download": "verified exact rules F401, B307, MUTABLE_DEFAULT",
+    "no_key_fallback": "verified; static findings preserved"
+  },
+  "llm_live_quality": "not evaluated",
+  "render": "deployment canceled by owner"
+}

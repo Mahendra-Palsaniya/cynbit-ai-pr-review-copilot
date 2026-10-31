@@ -1,0 +1,33 @@
+{
+  "findings": [
+    {
+      "tool": "Ruff",
+      "rule": "F401",
+      "line": 1,
+      "severity": "low",
+      "message": "`os` imported but unused",
+      "suggestion": "Review the lint finding and update the source."
+    },
+    {
+      "tool": "AST",
+      "rule": "MUTABLE_DEFAULT",
+      "line": 2,
+      "severity": "medium",
+      "message": "Mutable default persists across calls.",
+      "suggestion": "Use None and create the collection inside the function."
+    },
+    {
+      "tool": "Bandit",
+      "rule": "B307",
+      "line": 3,
+      "severity": "medium",
+      "message": "Use of possibly insecure function - consider using safer ast.literal_eval.",
+      "suggestion": "Review the security risk in context."
+    }
+  ],
+  "status": {
+    "AST": "completed",
+    "ruff": "completed",
+    "bandit": "completed"
+  }
+}
