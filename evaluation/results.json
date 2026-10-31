@@ -1,7 +1,7 @@
 {
-  "dataset": "12 hand-authored synthetic cases; no training; no holdout",
-  "matching": "exact unique (rule ID, line); all returned rules counted",
-  "llm": "not evaluated; no API key required or used",
+  "dataset": "12 hand-authored synthetic cases; no training or holdout",
+  "unit": "Unique (canonical rule ID, line_start) finding per file; E722 and BARE_EXCEPT merged",
+  "llm": "not evaluated by this script",
   "python": "3.11.9",
   "platform": "Windows-10-10.0.26300-SP0",
   "versions": {
@@ -9,38 +9,52 @@
     "bandit": "1.8.6",
     "streamlit": "1.56.0"
   },
-  "tp": 11,
+  "tp": 10,
   "fp": 0,
   "fn": 1,
   "precision": 1.0,
-  "recall": 0.9166666666666666,
-  "median_seconds": 1.1290879999869503,
+  "recall": 0.9090909090909091,
+  "f1": 0.9523809523809523,
+  "severity_accuracy_on_matched_findings": 1.0,
+  "severity_reference": "Authored fixture triage labels; not a recognized severity benchmark",
+  "line_localization": "Exact source line required for true-positive matching",
+  "fix_success_rate": null,
+  "fix_note": "No fixes executed; uploaded code is never executed",
+  "api_latency_seconds": null,
+  "cost_per_review_usd": null,
+  "median_seconds": 1.3652058000443503,
   "cases": [
     {
       "id": "clean_add",
-      "seconds": 1.1355729999486357,
+      "seconds": 1.5922793000936508,
       "expected": [],
       "predicted": [],
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "clean_default",
-      "seconds": 1.2355712000280619,
+      "seconds": 2.0592648000456393,
       "expected": [],
       "predicted": [],
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "unused_import",
-      "seconds": 1.1603814999107271,
+      "seconds": 1.8590592000400648,
       "expected": [
         [
           "F401",
@@ -56,12 +70,15 @@
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "undefined",
-      "seconds": 1.1378321999218315,
+      "seconds": 1.3626050000311807,
       "expected": [
         [
           "F821",
@@ -77,12 +94,15 @@
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "mutable_list",
-      "seconds": 1.122603000025265,
+      "seconds": 1.3034551000455394,
       "expected": [
         [
           "MUTABLE_DEFAULT",
@@ -98,12 +118,15 @@
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "mutable_keyword",
-      "seconds": 1.094800499966368,
+      "seconds": 1.3470747000537813,
       "expected": [
         [
           "MUTABLE_DEFAULT",
@@ -119,12 +142,15 @@
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "bare_except",
-      "seconds": 1.247586900019087,
+      "seconds": 1.4312832999275997,
       "expected": [
         [
           "B110",
@@ -132,10 +158,6 @@
         ],
         [
           "BARE_EXCEPT",
-          3
-        ],
-        [
-          "E722",
           3
         ]
       ],
@@ -147,21 +169,20 @@
         [
           "BARE_EXCEPT",
           3
-        ],
-        [
-          "E722",
-          3
         ]
       ],
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "eval",
-      "seconds": 1.0862412999849766,
+      "seconds": 1.3107311000349,
       "expected": [
         [
           "B307",
@@ -177,12 +198,15 @@
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "assert",
-      "seconds": 1.0506337000988424,
+      "seconds": 1.3257807999616489,
       "expected": [
         [
           "B101",
@@ -198,12 +222,15 @@
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "syntax",
-      "seconds": 0.00021989992819726467,
+      "seconds": 0.0009534000419080257,
       "expected": [
         [
           "SYNTAX",
@@ -217,12 +244,17 @@
         ]
       ],
       "status": {
-        "AST": "invalid input"
-      }
+        "AST": "invalid input",
+        "ruff": "not run",
+        "bandit": "not run",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "nosec",
-      "seconds": 1.158098499989137,
+      "seconds": 1.3831300999736413,
       "expected": [
         [
           "B307",
@@ -238,12 +270,15 @@
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": []
     },
     {
       "id": "semantic_blindspot",
-      "seconds": 1.066527200047858,
+      "seconds": 1.36780660005752,
       "expected": [
         [
           "EMPTY_INPUT_DIVISION",
@@ -254,8 +289,16 @@
       "status": {
         "AST": "completed",
         "ruff": "completed",
-        "bandit": "completed"
-      }
+        "bandit": "completed",
+        "AI": "disabled"
+      },
+      "false_positive": [],
+      "false_negative": [
+        [
+          "EMPTY_INPUT_DIVISION",
+          2
+        ]
+      ]
     }
   ]
 }

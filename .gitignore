@@ -5,3 +5,10 @@ __pycache__/
 .env
 .streamlit/secrets.toml
 *.log
+
+# Local data and credentials
+data/
+*.zip
+*.jsonl
+.env.*
+!.env.example

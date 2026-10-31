@@ -1,0 +1,316 @@
+{
+  "bugsinpy": {
+    "dataset": "bugsinpy",
+    "examples": 5,
+    "mode": "static-only baseline",
+    "raw_data_redistributed": false,
+    "rows": [
+      {
+        "id": "black-1",
+        "provenance": {
+          "dataset": "BugsInPy",
+          "project": "psf/black",
+          "python_version": "3.8.3",
+          "buggy_commit_id": "26c9465a22c732ab1e17b0dec578fa3432e9b558",
+          "fixed_commit_id": "c0a7582e3d4cc8bec3b7f5a6c52b36880dcb57d7",
+          "test_file": "tests/test_black.py",
+          "source_path": "black.py",
+          "span": [
+            612,
+            636
+          ],
+          "transform": "enclosing definition, dedent only",
+          "sha256": "07c180a9ed76bc001c6f9c916ad6bfb33733c4461bc459c0070c24cd3a1b711f"
+        },
+        "findings": 7,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.771548300050199,
+        "ai_seconds": null,
+        "usage": {},
+        "changed_line_overlap": true,
+        "known_bug_detection": "not established; overlapping warnings may be unrelated",
+        "latest_rule_histogram": {
+          "F821": 11
+        },
+        "root_cause_match_manual": false
+      },
+      {
+        "id": "black-2",
+        "provenance": {
+          "dataset": "BugsInPy",
+          "project": "psf/black",
+          "python_version": "3.8.3",
+          "buggy_commit_id": "c8ca6b2b9ff3510bee12129824cebfc2fc51e5b2",
+          "fixed_commit_id": "892eddacd215d685e136686b7f629ade70adca83",
+          "test_file": "tests/test_black.py",
+          "source_path": "black.py",
+          "span": [
+            3112,
+            3130
+          ],
+          "transform": "enclosing definition, dedent only",
+          "sha256": "6f5f46045e6a1914aa7a00becba1a0d551dca97fd083ef4e4caaa114ad481af6"
+        },
+        "findings": 6,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.3798262999625877,
+        "ai_seconds": null,
+        "usage": {},
+        "changed_line_overlap": true,
+        "known_bug_detection": "not established; overlapping warnings may be unrelated",
+        "latest_rule_histogram": {
+          "F821": 10
+        },
+        "root_cause_match_manual": false
+      },
+      {
+        "id": "black-3",
+        "provenance": {
+          "dataset": "BugsInPy",
+          "project": "psf/black",
+          "python_version": "3.8.3",
+          "buggy_commit_id": "8126b4f6a9342290de4655e6a8a78cd288ce7daa",
+          "fixed_commit_id": "7a14a37981862ef418f3cdb4a7e2375856f97529",
+          "test_file": "tests/test_black.py",
+          "source_path": "black.py",
+          "span": [
+            278,
+            498
+          ],
+          "transform": "enclosing definition, dedent only",
+          "sha256": "5695e828b39d8a52302dfc39324bafa89c885a80b0755e8a93ff3d3ee874085b"
+        },
+        "findings": 57,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.296654700068757,
+        "ai_seconds": null,
+        "usage": {},
+        "changed_line_overlap": false,
+        "known_bug_detection": "not established; overlapping warnings may be unrelated",
+        "latest_rule_histogram": {
+          "F821": 61
+        },
+        "root_cause_match_manual": false
+      },
+      {
+        "id": "black-4",
+        "provenance": {
+          "dataset": "BugsInPy",
+          "project": "psf/black",
+          "python_version": "3.8.3",
+          "buggy_commit_id": "65ea568e3301951f26e0e3b98f6d5dc80132e917",
+          "fixed_commit_id": "c7495b9aa098ef7a358fc74556359d21c6a4ba11",
+          "test_file": "tests/test_black.py;tests/data/beginning_backslash.py",
+          "source_path": "black.py",
+          "span": [
+            1476,
+            1486
+          ],
+          "transform": "enclosing definition, dedent only",
+          "sha256": "edb54043104a26ec7aea8d4bb3f52306b1c1b7643098ec01d641b434afba3289"
+        },
+        "findings": 1,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.5607394000981003,
+        "ai_seconds": null,
+        "usage": {},
+        "changed_line_overlap": false,
+        "known_bug_detection": "not established; overlapping warnings may be unrelated",
+        "latest_rule_histogram": {
+          "F821": 2
+        },
+        "root_cause_match_manual": false
+      },
+      {
+        "id": "black-5",
+        "provenance": {
+          "dataset": "BugsInPy",
+          "project": "psf/black",
+          "python_version": "3.8.3",
+          "buggy_commit_id": "1bbb01b854d168d76ebe4bf78961c2152ae075d9",
+          "fixed_commit_id": "9394de150ebf0adc426523f46dc08e8b2b2b0b63",
+          "test_file": "tests/test_black.py",
+          "source_path": "black.py",
+          "span": [
+            1311,
+            1363
+          ],
+          "transform": "enclosing definition, dedent only",
+          "sha256": "dfc3554673715744697a275a3e8f79bde092fa4f80ae0ada303b738bafd19287"
+        },
+        "findings": 8,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.6711721000028774,
+        "ai_seconds": null,
+        "usage": {},
+        "changed_line_overlap": true,
+        "known_bug_detection": "not established; overlapping warnings may be unrelated",
+        "latest_rule_histogram": {
+          "F821": 8
+        },
+        "root_cause_match_manual": false
+      }
+    ],
+    "median_static_seconds": 1.5607394000981003,
+    "fix_tests_reproduced": false,
+    "cost_usd": null,
+    "changed_line_overlap_cases": 3,
+    "warning": "Overlap is a localization proxy, not known-bug recall. Extracted definitions lack module context.",
+    "manual_root_cause_review": {
+      "matched_cases": 0,
+      "cases": 5,
+      "method": "Compare generated rule semantics against BugsInPy patch root causes; single evaluator, extracted definitions only",
+      "finding": "All returned rules were F821 for undefined names from missing module context; none addresses the known semantic root cause.",
+      "root_causes": {
+        "black-1": "ProcessPoolExecutor OSError fallback and optional executor shutdown",
+        "black-2": "fmt:on markers nested in child nodes",
+        "black-3": "click config path must exist",
+        "black-4": "no empty lines at beginning when previous_line is None",
+        "black-5": "typedargslist and trailing comma handling"
+      }
+    }
+  },
+  "codereviewer": {
+    "dataset": "codereviewer",
+    "examples": 5,
+    "mode": "static-only baseline",
+    "raw_data_redistributed": false,
+    "rows": [
+      {
+        "id": "32995",
+        "provenance": {
+          "archive": "Comment_Generation.zip",
+          "member": "Comment_Generation/msg-test.jsonl",
+          "project": "forseti-security-forseti-security",
+          "sha256": "381a752b075ea798e4f1f6ab849479562b8e7c5a06d77b8b41710e2d21c2c64f"
+        },
+        "findings": 2,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.4889736999757588,
+        "ai_seconds": null,
+        "usage": {},
+        "token_overlap_f1": 0.04347826086956521,
+        "human_correctness": "not graded"
+      },
+      {
+        "id": "28140",
+        "provenance": {
+          "archive": "Comment_Generation.zip",
+          "member": "Comment_Generation/msg-test.jsonl",
+          "project": "nvaccess-nvda",
+          "sha256": "bd4d216606f3a41618b9f70f4db612eccccc5d24dd911f0564223d639d739d08"
+        },
+        "findings": 7,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.7411583999637514,
+        "ai_seconds": null,
+        "usage": {},
+        "token_overlap_f1": 0.1037037037037037,
+        "human_correctness": "not graded"
+      },
+      {
+        "id": "12012",
+        "provenance": {
+          "archive": "Comment_Generation.zip",
+          "member": "Comment_Generation/msg-test.jsonl",
+          "project": "boto-boto",
+          "sha256": "fc62edad100fd2197c629ea24df7fb305187e378484f609f6e53a5158e45af45"
+        },
+        "findings": 1,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.4265381000004709,
+        "ai_seconds": null,
+        "usage": {},
+        "token_overlap_f1": 0.07142857142857144,
+        "human_correctness": "not graded"
+      },
+      {
+        "id": "32431",
+        "provenance": {
+          "archive": "Comment_Generation.zip",
+          "member": "Comment_Generation/msg-test.jsonl",
+          "project": "forseti-security-forseti-security",
+          "sha256": "84831445dd8a008ee3b79c69d194c5cbfed9f548fca7838e7fce0e0e94a86c04"
+        },
+        "findings": 0,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.39650899998378,
+        "ai_seconds": null,
+        "usage": {},
+        "token_overlap_f1": 0,
+        "human_correctness": "not graded"
+      },
+      {
+        "id": "13424",
+        "provenance": {
+          "archive": "Comment_Generation.zip",
+          "member": "Comment_Generation/msg-test.jsonl",
+          "project": "mitmproxy-mitmproxy",
+          "sha256": "a170475a275cccea17d17e66c0fa4c94fd0b350340be4c478ac509935dfe2b9a"
+        },
+        "findings": 1,
+        "status": {
+          "AST": "completed",
+          "ruff": "completed",
+          "bandit": "completed",
+          "AI": "disabled"
+        },
+        "static_seconds": 1.4137522999662906,
+        "ai_seconds": null,
+        "usage": {},
+        "token_overlap_f1": 0.05,
+        "human_correctness": "not graded"
+      }
+    ],
+    "median_static_seconds": 1.4265381000004709,
+    "fix_tests_reproduced": false,
+    "cost_usd": null,
+    "mean_token_overlap_f1": 0.05372210720036807,
+    "warning": "Lexical overlap with a single human comment does not establish semantic review correctness."
+  }
+}

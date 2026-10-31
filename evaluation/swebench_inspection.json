@@ -1,0 +1,34 @@
+{
+  "dataset": "SWE-bench Lite",
+  "bytes": 2702170,
+  "sha256": "438e281d80587aa7be470896ce410557002fde02d2ceee3e099331d308f62dd3",
+  "acquisition": "Downloaded 2.7 MB test parquet; hash matches public Hugging Face pointer",
+  "inspection": "Public browser preview: two issue records and field schema inspected",
+  "selected_ids": [
+    "astropy__astropy-12907",
+    "astropy__astropy-14182"
+  ],
+  "columns": [
+    "base_commit",
+    "created_at",
+    "difficulty",
+    "environment_setup_commit",
+    "eval_type",
+    "image",
+    "instance_id",
+    "log_parser",
+    "repo",
+    "version",
+    "patch",
+    "test_patch",
+    "eval_script",
+    "problem_statement",
+    "hints_text",
+    "FAIL_TO_PASS",
+    "PASS_TO_PASS"
+  ],
+  "local_reader": "Blocked by Windows Application Control loading pyarrow Parquet DLL; not bypassed",
+  "issue_resolution_evaluated": false,
+  "code_or_scripts_executed": false,
+  "raw_data_redistributed": false
+}
