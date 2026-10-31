@@ -42,11 +42,11 @@ Measured: TP=11, FP=0, FN=1; precision=1.000, recall=0.917; median latency=1.13 
 
 ### Verification and reproducibility
 
-Seventeen pytest tests passed, including real-tool integration, source non-execution, invalid/oversized input, analyzer failure/timeout behavior, no-key/no-consent paths, redacted provider failures and Streamlit AppTest interaction. Ruff lint and Bandit application scans passed. Subprocess-related Bandit B404/B603 suppressions are scoped to the fixed analyzer invocation and documented here; their presence is not evidence of zero security risk. Direct dependencies are pinned in requirements.txt; transitive packages are not locked. GitHub Actions is configured to run lint, security checks, tests and evaluation on Python 3.11. Remote CI status must be checked separately after publication.
+Seventeen pytest tests passed, including real-tool integration, source non-execution, invalid/oversized input, analyzer failure/timeout behavior, no-key/no-consent paths, redacted provider failures and Streamlit AppTest interaction. Ruff lint and Bandit application scans passed. Subprocess-related Bandit B404/B603 suppressions are scoped to the fixed analyzer invocation and documented here; their presence is not evidence of zero security risk. Direct dependencies are pinned in requirements.txt; transitive packages are not locked. GitHub Actions is configured to run lint, security checks, tests and evaluation on Python 3.11. The initial GitHub Actions run 41174769485 passed independently on Linux after publication.
 
 ### Deployment and next work
 
-Streamlit runs on the host-provided PORT at 0.0.0.0, with /_stcore/health for readiness. Initial deployment should leave the optional API key unset. Public hosting was not verified because Render access failed. Before production use add authentication, quotas, operational monitoring, controlled upgrades, independent benchmark labeling and a secure GitHub App flow. PR support requires base/head source retrieval, changed-line mapping, repository trust rules and human-approved publishing; these are future features.
+The owner selected Streamlit Community Cloud using the public GitHub repository, main branch, app.py entrypoint and Python 3.11. Initial deployment leaves the optional API key unset. Public hosting awaits completion of the account sign-in and live verification; no deployed URL is claimed. Render deployment was canceled at the owner's request. Before production use add authentication, quotas, operational monitoring, controlled upgrades, independent benchmark labeling and a secure GitHub App flow. PR support requires base/head source retrieval, changed-line mapping, repository trust rules and human-approved publishing; these are future features.
 
 ### References
 

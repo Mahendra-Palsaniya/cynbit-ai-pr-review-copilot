@@ -46,11 +46,9 @@ Submitted code is never executed or imported. Only fixed analyzer modules are la
 
 This is a trusted-user prototype, not a hardened public service: input size and subprocess timeouts do not impose a hard memory/CPU limit on in-process parsing. Add process/container quotas, authentication, rate limiting, concurrency limits and data-retention controls before broad exposure. Do not provide a shared paid API key on an unauthenticated public demo. Review all suggested fixes manually. Severity is a triage hint; all Ruff findings currently map to low severity. No PR fetching, unified-diff support, automatic patches, GitHub comments, multi-file context, trained model, or guarantee of safe code is implemented. The product name describes its intended future workflow.
 
-## Hosting
+## Hosting on Streamlit Community Cloud
 
-Start command: `python -m streamlit run app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true`
-
-Build command: `pip install -r requirements.txt`; Python 3.11; health path `/_stcore/health`. The repository is public at the owner's request. Leave the API key unset for the first demo. Render deployment is pending verification; see the deployment status document. See `docs/DEPLOYMENT.md` for status and exact steps.
+The owner selected Streamlit Community Cloud. In your workspace choose Create app, deploy from GitHub, select `Mahendra-Palsaniya/cynbit-ai-pr-review-copilot`, branch `main`, main file `app.py`, and Python 3.11 in Advanced settings. Leave secrets empty for the no-key demo, then deploy. Verify an actual review and JSON download before sharing the resulting URL. A live URL will be recorded only after verification. See `docs/DEPLOYMENT.md` for status.
 
 ## Reports
 

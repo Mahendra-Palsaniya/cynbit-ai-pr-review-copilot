@@ -1,13 +1,20 @@
-# Deployment status and runbook
+# Streamlit Community Cloud deployment
 
 31 October 2026
 
-Local implementation, lint, security scan and 17 tests verified. Evaluation results are committed separately from proposed benefits. Repository creation, public visibility (explicitly requested by the owner), and Git push were confirmed. Initial GitHub Actions passed on Linux in run 41174769485. Hosted availability still requires independent confirmation; no live URL is claimed here.
+The owner selected Streamlit Community Cloud and canceled Render deployment. No successful Render service creation was confirmed. The repository is public as explicitly requested by the owner.
 
-The owner approved My Workspace and a free service, with AI API access disabled. Workspace listing recovered, but service-creation calls encountered transport failures. An earlier private-repository attempt was rejected as unfetchable. The repository was then made public at the owner's request. Render dashboard sign-in is available as a fallback. No paid service is authorized.
+Verified: local 17-test suite, Ruff and Bandit application scans, synthetic evaluation, successful initial Linux GitHub Actions run 41174769485, Git push, ZIP integrity, and visual PDF QA. Community Cloud deployment awaits a signed-in browser workspace. Do not claim a live URL before actual verification.
 
-Once access is restored, create a Python web service from the repository main branch, build with `pip install -r requirements.txt`, start with `python -m streamlit run app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true`, set Python 3.11, use health path `/_stcore/health`, and leave OPENAI_API_KEY unset. Select only an explicitly approved plan. If the private repo is unavailable, authorize this repository in the hosting provider's GitHub integration rather than making it public as a workaround.
+## Deployment settings
 
-Verify a successful terminal deploy state, HTTP health response, UI review of a sample, JSON download and no-key behavior. Record actual URL, deploy ID and timestamp only after these checks. Re-run checks after any deployment-specific changes. For rollback, select the preceding verified commit and redeploy through the provider.
+- Repository: Mahendra-Palsaniya/cynbit-ai-pr-review-copilot
+- Branch: main
+- Main file: app.py
+- Python: 3.11 (Advanced settings)
+- Secrets: leave empty; static review requires no key
+- Dependencies: requirements.txt at repository root
 
-Never store keys in Git, screenshots, deployment commands or report artifacts. Configure optional credentials in provider secret settings. Authentication and rate/concurrency controls remain prerequisites for sustained public use.
+After deployment, open the actual generated app URL, review the problematic sample, verify AST/Ruff/Bandit completed status, download the review JSON and inspect it. Test clean and invalid Python inputs. Confirm the no-key message if AI commentary is requested. Record the actual URL and successful verification time here. Community Cloud may sleep inactive apps; wake-up behavior is separate from application correctness.
+
+Do not add a shared paid API key to the public demo without appropriate access and abuse controls. Optional API keys belong only in hosting secret settings; no credentials should be entered in the source or committed to Git. Submitted code is not executed. Resource isolation, authentication, rate limits and independent accuracy evaluation remain future hardening work.
