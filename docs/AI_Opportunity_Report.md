@@ -65,7 +65,7 @@ The ratings are qualitative assessment judgments. No weighted numerical ranking 
 
 ## 7. Selected opportunity
 
-**AI PR Review Copilot** is an assistant for reviewing complete Python source files. Its current name describes a future PR workflow; it does not currently fetch GitHub pull requests, post review comments, merge code or infer repository metadata. Optional previous-version input produces a local unified diff from user-supplied files.
+**AI PR Review Copilot** is an assistant for reviewing complete Python source files. It now fetches real public GitHub PR metadata, changed-file diffs and bounded Python source, and can publish selected COMMENT reviews only with explicit authorization and configured access controls. It never merges code. Optional previous-version input produces a local unified diff from user-supplied files.
 
 The implementation distinguishes static rule matches from AI-generated potential findings. A security warning is described as a potential weakness, and every fix remains a suggestion requiring developer review.
 
@@ -118,7 +118,7 @@ Measured static results and testing details are in the Technical Approach Report
 
 ## 14. Future scope
 
-A controlled next phase could add a least-privilege GitHub App, base/head retrieval and changed-line mapping; independently annotated evaluation; team authentication and quotas; repository-context retrieval; and isolated regression-test execution. Multi-language support and educational integration would follow demonstrated user value. None of these future items is presented as implemented.
+PR retrieval and changed-line mapping are implemented in the current local release. A controlled next phase could add a least-privilege GitHub App; independently annotated evaluation; team authentication and quotas; repository-context retrieval; and isolated regression-test execution. Multi-language support and educational integration would follow demonstrated user value. None of these future items is presented as implemented.
 
 ## 15. Conclusion
 
@@ -138,3 +138,5 @@ All public pages were inspected on 31 October 2026; public descriptions are not 
 8. Comment Generation archive: https://zenodo.org/records/6900648
 9. SWE-bench Lite: https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite
 10. Companion Technical Approach Report: Technical_Approach_Report.md
+
+The current implementation also provides key-free contextual AST heuristics, real public GitHub PR reads and guarded optional comment publishing. Live LLM performance and productivity benefits remain unmeasured; the lack of a configured API key does not block the static demonstration. Technical evidence and release limitations are recorded in the companion Technical Approach Report.

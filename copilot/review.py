@@ -8,6 +8,7 @@ import sys
 import tempfile
 import time
 from copilot.aggregation import aggregate
+from copilot.context import contextual_findings
 from copilot.inputs import MAX_BYTES, safe_filename, validate_source
 from copilot.models import Finding, Review
 
@@ -169,6 +170,8 @@ def review_code(code: str, filename: str = "submitted.py", progress=None) -> Rev
                 )
             )
     result.structure = structure
+    result.findings.extend(contextual_findings(tree, code, filename))
+    result.status["Local context"] = "completed; key-free AST heuristics, not an LLM"
     with tempfile.TemporaryDirectory(prefix="cynbit-review-") as directory:
         path = Path(directory) / "submitted.py"
         path.write_text(code, encoding="utf-8")

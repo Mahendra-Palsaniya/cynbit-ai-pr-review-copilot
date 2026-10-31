@@ -2,13 +2,17 @@
 
 from collections import Counter
 import difflib
+import hmac
 from html import escape
 import json
 import os
+import time
 from pathlib import Path
 
 import streamlit as st
 from copilot.ai import add_ai_review
+from copilot.config import github_publish_code, github_token
+from copilot.github_pr import GitHubClient, GitHubError
 from copilot.export import review_pdf
 from copilot.inputs import MAX_BYTES, decode_upload
 from copilot.review import review_code
@@ -26,6 +30,7 @@ NAV = [
     "About Project",
 ]
 SAMPLE = """import os
+import time
 
 def collect(value, items=[]):
     items.append(value)
@@ -66,6 +71,7 @@ for key, value in {
     "history": [],
     "active": None,
     "active_code": "",
+    "active_pr": None,
     "active_base": "",
     "upload_epoch": 0,
     "keep_history": False,
@@ -144,6 +150,7 @@ with st.sidebar:
     if st.button("Clear session reviews", use_container_width=True):
         st.session_state.history = []
         st.session_state.active = None
+        st.session_state.active_pr = None
         st.session_state.active_code = ""
         st.session_state.active_base = ""
         st.session_state.editor = ""
@@ -157,7 +164,7 @@ st.markdown(
 heading, badge = st.columns([4, 1])
 with heading:
     st.title("AI PR Review Copilot")
-    st.caption("Evidence first. AI suggestions with human judgment.")
+    st.caption("Key-free local review. Optional LLM suggestions with human judgment.")
 with badge:
     st.markdown(
         '<span class="pill low">PYTHON WORKSPACE</span>', unsafe_allow_html=True
@@ -211,7 +218,7 @@ if page == "About Project":
                 name,
             )
     st.info(
-        "No GitHub PR ingestion, reviewer identities or automatic merge actions are configured. "
+        "Public GitHub PRs can be fetched read-only without a token. Comment publishing requires a token and explicit authorization. No automatic merge actions are implemented. "
         "Uploaded code is never executed. Tool warnings are not proof of an exploitable vulnerability."
     )
     st.stop()
@@ -233,17 +240,58 @@ if page == "Evaluation":
     st.stop()
 
 if page == "Pull Requests":
-    st.info(
-        "GitHub integration is not connected. This workspace reviews complete Python files. "
-        "Use the optional baseline input for a local diff; session reviews below are not GitHub PRs."
+    st.subheader("Review a real GitHub pull request")
+    st.caption(
+        "Public PRs need no token. Up to ten Python files and 150 KB total source. "
+        "Read-only by default; findings are mapped to added lines when the diff is available."
     )
+    pr_url = st.text_input(
+        "GitHub PR URL",
+        placeholder="https://github.com/owner/repository/pull/123",
+        max_chars=300,
+    )
+    pr_ai = st.checkbox(
+        "Send fetched Python source to OpenAI for optional LLM review",
+        key="pr_ai_consent",
+    )
+    if st.button("Fetch and review PR", type="primary"):
+        try:
+            if time.monotonic() - st.session_state.get("last_pr_request", -1000) < 15:
+                raise GitHubError("Wait 15 seconds between PR fetches.")
+            st.session_state.last_pr_request = time.monotonic()
+            progress = st.progress(0, text="Fetching GitHub metadata")
+            client = GitHubClient(token=github_token())
+            bundle = client.read_pr(
+                pr_url,
+                with_ai=pr_ai,
+                api_key=configured_key(),
+                model=st.session_state.model,
+                progress=lambda message, value: progress.progress(value, text=message),
+            )
+            st.session_state.active = bundle.review
+            st.session_state.active_pr = bundle
+            st.session_state.active_code = next(
+                (file.code for file in bundle.files if file.code), ""
+            )
+            st.session_state.active_base = ""
+            if st.session_state.keep_history:
+                entry = {
+                    "review": bundle.review,
+                    "code": st.session_state.active_code,
+                    "base": "",
+                    "pr": bundle,
+                }
+                st.session_state.history = ([entry] + st.session_state.history)[:10]
+            progress.progress(100, text="GitHub review complete")
+        except ValueError as error:
+            st.error(str(error))
 
 if page == "Review History" and not st.session_state.history:
     st.info(
         "No saved session reviews. Enable session history in Settings before reviewing to retain previous sessions."
     )
 
-if page in ("Dashboard", "Code Review", "Pull Requests"):
+if page in ("Dashboard", "Code Review"):
     with st.expander(
         "New review · Paste or upload Python",
         expanded=page == "Code Review",
@@ -288,6 +336,12 @@ if page in ("Dashboard", "Code Review", "Pull Requests"):
         )
         if st.button("Review code", type="primary"):
             try:
+                if (
+                    time.monotonic() - st.session_state.get("last_local_review", -1000)
+                    < 2
+                ):
+                    raise ValueError("Wait two seconds between source reviews.")
+                st.session_state.last_local_review = time.monotonic()
                 if upload is not None:
                     filename, code = decode_upload(upload.name, upload.getvalue())
                 progress = st.progress(0, text="Validating source")
@@ -306,8 +360,9 @@ if page in ("Dashboard", "Code Review", "Pull Requests"):
                         model=st.session_state.model,
                     )
                 advance("Review complete", 100)
-                entry = {"review": review, "code": code, "base": base}
+                entry = {"review": review, "code": code, "base": base, "pr": None}
                 st.session_state.active = review
+                st.session_state.active_pr = None
                 st.session_state.active_code = code
                 st.session_state.active_base = base
                 if st.session_state.keep_history:
@@ -345,6 +400,7 @@ with review_list:
                 "review": active,
                 "code": st.session_state.active_code,
                 "base": st.session_state.active_base,
+                "pr": st.session_state.active_pr,
             }
         ]
     if not entries:
@@ -362,6 +418,7 @@ with review_list:
         label = f"{r.id}\n{r.filename}\n{len(r.findings)} findings · {highest}\n{r.created_at[11:16]} UTC"
         if st.button(label, key="select-" + r.id, use_container_width=True):
             st.session_state.active = r
+            st.session_state.active_pr = entry.get("pr")
             st.session_state.active_code = entry["code"]
             st.session_state.active_base = entry["base"]
             st.rerun()
@@ -412,7 +469,33 @@ with details:
                 st.caption(
                     "AI summary unavailable. " + active.status.get("AI", "disabled")
                 )
-            st.code(st.session_state.active_code, language="python", line_numbers=True)
+            if st.session_state.active_pr:
+                bundle = st.session_state.active_pr
+                st.text(bundle.metadata["title"])
+                st.link_button("Open original PR", bundle.url)
+                paths = [file.path for file in bundle.files if file.code]
+                if paths:
+                    selected_path = st.selectbox("PR source file", paths)
+                    st.code(
+                        next(
+                            file.code
+                            for file in bundle.files
+                            if file.path == selected_path
+                        ),
+                        language="python",
+                        line_numbers=True,
+                    )
+                for file in bundle.files:
+                    if file.skip_reason:
+                        st.text(file.path + ": " + file.skip_reason)
+                if bundle.metadata.get("file_list_truncated"):
+                    st.warning(
+                        "GitHub file listing is capped at 100 files; this PR review is partial."
+                    )
+            else:
+                st.code(
+                    st.session_state.active_code, language="python", line_numbers=True
+                )
             with st.expander("Extracted Python structure"):
                 st.json(active.structure)
         with tabs["Findings"]:
@@ -453,7 +536,23 @@ with details:
                 finding_card(f)
         with tabs["Code Diff"]:
             previous = st.session_state.active_base
-            if previous:
+            if st.session_state.active_pr:
+                files = [
+                    file for file in st.session_state.active_pr.files if file.patch
+                ]
+                if files:
+                    selected_patch = st.selectbox(
+                        "Changed-file diff", [file.path for file in files]
+                    )
+                    st.code(
+                        next(
+                            file.patch for file in files if file.path == selected_patch
+                        ),
+                        language="diff",
+                    )
+                else:
+                    st.info("GitHub did not provide a diff for these files.")
+            elif previous:
                 diff = "\n".join(
                     difflib.unified_diff(
                         previous.splitlines(),
@@ -499,6 +598,69 @@ with details:
                 st.markdown(f"**{f.source} · line {f.line_start}**")
                 st.text(f.suggested_fix)
             st.text(active.status.get("AI", "AI disabled"))
+        if st.session_state.active_pr:
+            bundle = st.session_state.active_pr
+            with st.expander("Optional: publish selected review comments"):
+                st.caption(
+                    "This posts a COMMENT review, never an approval or merge. "
+                    "A GitHub token with PR-write permission is required."
+                )
+                choices = {f.id: f for f in active.findings}
+                chosen = st.multiselect(
+                    "Findings to publish",
+                    list(choices),
+                    format_func=lambda ident: choices[ident].filename
+                    + ":"
+                    + str(choices[ident].line_start)
+                    + " "
+                    + choices[ident].title,
+                )
+                for ident in chosen:
+                    finding = choices[ident]
+                    st.text(
+                        finding.title
+                        + "\n"
+                        + finding.explanation
+                        + "\nSuggested improvement: "
+                        + finding.suggested_fix
+                    )
+                publish_code = github_publish_code()
+                entered_code = (
+                    st.text_input("Publishing access code", type="password")
+                    if publish_code
+                    else ""
+                )
+                if not publish_code:
+                    st.caption(
+                        "Server publishing is disabled. An owner must configure GITHUB_TOKEN and "
+                        "GITHUB_PUBLISH_CODE to enable this optional action."
+                    )
+                allowed = bool(publish_code) and hmac.compare_digest(
+                    entered_code, publish_code or ""
+                )
+                authorized = st.checkbox(
+                    "I authorize posting these selected comments to " + bundle.url,
+                    key="authorize-" + bundle.head_sha + str(bundle.number),
+                )
+                if st.button(
+                    "Publish selected PR comments",
+                    disabled=not authorized or not chosen or not allowed,
+                ):
+                    try:
+                        response = GitHubClient(token=github_token()).publish(
+                            bundle, chosen, authorized=authorized
+                        )
+                        st.success(
+                            "GitHub accepted the user-authorized review comments."
+                        )
+                        if isinstance(response, dict) and response.get(
+                            "html_url", ""
+                        ).startswith("https://github.com/"):
+                            st.link_button(
+                                "View published review", response["html_url"]
+                            )
+                    except ValueError as error:
+                        st.error(str(error))
         a, b = st.columns(2)
         a.download_button(
             "Download JSON",
@@ -531,10 +693,20 @@ with information:
             )
         st.divider()
         st.caption("METADATA")
-        st.text("Changed files: 1 (submitted source)")
-        st.text("Author / reviewers / assignees: not provided")
-        st.text("Branch / commit: not provided")
-        st.text("Labels: local Python review")
+        if st.session_state.active_pr:
+            meta = st.session_state.active_pr.metadata
+            st.text("Changed files: " + str(meta["changed_files"]))
+            st.text("Author: " + meta["author"])
+            st.text("Requested reviewers: " + (", ".join(meta["reviewers"]) or "none"))
+            st.text("Assignees: " + (", ".join(meta["assignees"]) or "none"))
+            st.text("Branches: " + meta["head_branch"] + " -> " + meta["base_branch"])
+            st.text("Head commit: " + meta["head_commit"])
+            st.text("Labels: " + (", ".join(meta["labels"]) or "none"))
+        else:
+            st.text("Changed files: 1 (submitted source)")
+            st.text("Author / reviewers / assignees: not provided")
+            st.text("Branch / commit: not provided")
+            st.text("Labels: local Python review")
         st.caption("Check completion is not the same as checks finding no issues.")
     else:
         st.caption(

@@ -17,9 +17,10 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
-      "static_seconds": 1.4889736999757588,
+      "static_seconds": 1.2542884999420494,
       "ai_seconds": null,
       "usage": {},
       "token_overlap_f1": 0.04347826086956521,
@@ -33,17 +34,18 @@
         "project": "nvaccess-nvda",
         "sha256": "bd4d216606f3a41618b9f70f4db612eccccc5d24dd911f0564223d639d739d08"
       },
-      "findings": 7,
+      "findings": 13,
       "status": {
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
-      "static_seconds": 1.7411583999637514,
+      "static_seconds": 1.4459979999810457,
       "ai_seconds": null,
       "usage": {},
-      "token_overlap_f1": 0.1037037037037037,
+      "token_overlap_f1": 0.06060606060606061,
       "human_correctness": "not graded"
     },
     {
@@ -59,9 +61,10 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
-      "static_seconds": 1.4265381000004709,
+      "static_seconds": 1.4094638000242412,
       "ai_seconds": null,
       "usage": {},
       "token_overlap_f1": 0.07142857142857144,
@@ -80,9 +83,10 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
-      "static_seconds": 1.39650899998378,
+      "static_seconds": 1.3155208999523893,
       "ai_seconds": null,
       "usage": {},
       "token_overlap_f1": 0,
@@ -101,18 +105,19 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
-      "static_seconds": 1.4137522999662906,
+      "static_seconds": 1.385179299977608,
       "ai_seconds": null,
       "usage": {},
       "token_overlap_f1": 0.05,
       "human_correctness": "not graded"
     }
   ],
-  "median_static_seconds": 1.4265381000004709,
+  "median_static_seconds": 1.385179299977608,
   "fix_tests_reproduced": false,
   "cost_usd": null,
-  "mean_token_overlap_f1": 0.05372210720036807,
+  "mean_token_overlap_f1": 0.04510257858083945,
   "warning": "Lexical overlap with a single human comment does not establish semantic review correctness."
 }

@@ -1,5 +1,5 @@
 {
-  "dataset": "12 hand-authored synthetic cases; no training or holdout",
+  "dataset": "24 hand-authored synthetic cases; no training or holdout",
   "unit": "Unique (canonical rule ID, line_start) finding per file; E722 and BARE_EXCEPT merged",
   "llm": "not evaluated by this script",
   "python": "3.11.9",
@@ -9,12 +9,12 @@
     "bandit": "1.8.6",
     "streamlit": "1.56.0"
   },
-  "tp": 10,
+  "tp": 23,
   "fp": 0,
-  "fn": 1,
+  "fn": 0,
   "precision": 1.0,
-  "recall": 0.9090909090909091,
-  "f1": 0.9523809523809523,
+  "recall": 1.0,
+  "f1": 1.0,
   "severity_accuracy_on_matched_findings": 1.0,
   "severity_reference": "Authored fixture triage labels; not a recognized severity benchmark",
   "line_localization": "Exact source line required for true-positive matching",
@@ -22,39 +22,41 @@
   "fix_note": "No fixes executed; uploaded code is never executed",
   "api_latency_seconds": null,
   "cost_per_review_usd": null,
-  "median_seconds": 1.3652058000443503,
+  "median_seconds": 1.4062821000115946,
   "cases": [
     {
       "id": "clean_add",
-      "seconds": 1.5922793000936508,
+      "seconds": 1.2386109000071883,
       "expected": [],
       "predicted": [],
       "status": {
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "clean_default",
-      "seconds": 2.0592648000456393,
+      "seconds": 1.3530845999484882,
       "expected": [],
       "predicted": [],
       "status": {
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "unused_import",
-      "seconds": 1.8590592000400648,
+      "seconds": 1.424738600035198,
       "expected": [
         [
           "F401",
@@ -71,14 +73,15 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "undefined",
-      "seconds": 1.3626050000311807,
+      "seconds": 1.3464619000442326,
       "expected": [
         [
           "F821",
@@ -95,14 +98,15 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "mutable_list",
-      "seconds": 1.3034551000455394,
+      "seconds": 1.5874632999766618,
       "expected": [
         [
           "MUTABLE_DEFAULT",
@@ -119,14 +123,15 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "mutable_keyword",
-      "seconds": 1.3470747000537813,
+      "seconds": 1.6009980000089854,
       "expected": [
         [
           "MUTABLE_DEFAULT",
@@ -143,14 +148,15 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "bare_except",
-      "seconds": 1.4312832999275997,
+      "seconds": 1.256690299953334,
       "expected": [
         [
           "B110",
@@ -175,14 +181,15 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "eval",
-      "seconds": 1.3107311000349,
+      "seconds": 1.1936603999929503,
       "expected": [
         [
           "B307",
@@ -199,14 +206,15 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "assert",
-      "seconds": 1.3257807999616489,
+      "seconds": 1.3271298999898136,
       "expected": [
         [
           "B101",
@@ -223,14 +231,15 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "syntax",
-      "seconds": 0.0009534000419080257,
+      "seconds": 0.0025236000074073672,
       "expected": [
         [
           "SYNTAX",
@@ -254,7 +263,7 @@
     },
     {
       "id": "nosec",
-      "seconds": 1.3831300999736413,
+      "seconds": 1.2058353999163955,
       "expected": [
         [
           "B307",
@@ -271,34 +280,330 @@
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
       "false_negative": []
     },
     {
       "id": "semantic_blindspot",
-      "seconds": 1.36780660005752,
+      "seconds": 1.4491292999591678,
       "expected": [
         [
           "EMPTY_INPUT_DIVISION",
           2
         ]
       ],
+      "predicted": [
+        [
+          "EMPTY_INPUT_DIVISION",
+          2
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "literal_zero",
+      "seconds": 1.693749999976717,
+      "expected": [
+        [
+          "ZERO_DENOMINATOR",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "ZERO_DENOMINATOR",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "none_default",
+      "seconds": 1.7208861000835896,
+      "expected": [
+        [
+          "NONE_DEFAULT_ATTRIBUTE",
+          2
+        ]
+      ],
+      "predicted": [
+        [
+          "NONE_DEFAULT_ATTRIBUTE",
+          2
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "guarded_average",
+      "seconds": 1.617542100022547,
+      "expected": [],
       "predicted": [],
       "status": {
         "AST": "completed",
         "ruff": "completed",
         "bandit": "completed",
-        "AI": "disabled"
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
       },
       "false_positive": [],
-      "false_negative": [
+      "false_negative": []
+    },
+    {
+      "id": "shell_command",
+      "seconds": 1.8082470999797806,
+      "expected": [
         [
-          "EMPTY_INPUT_DIVISION",
+          "B404",
+          1
+        ],
+        [
+          "B602",
+          3
+        ]
+      ],
+      "predicted": [
+        [
+          "B404",
+          1
+        ],
+        [
+          "B602",
+          3
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "pickle_load",
+      "seconds": 1.8436757000163198,
+      "expected": [
+        [
+          "B301",
+          3
+        ],
+        [
+          "B403",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "B301",
+          3
+        ],
+        [
+          "B403",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "demo_password",
+      "seconds": 1.6805099999764934,
+      "expected": [
+        [
+          "B105",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "B105",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "subprocess_argument_list",
+      "seconds": 1.3566732000326738,
+      "expected": [
+        [
+          "B404",
+          1
+        ],
+        [
+          "B603",
+          3
+        ]
+      ],
+      "predicted": [
+        [
+          "B404",
+          1
+        ],
+        [
+          "B603",
+          3
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "yaml_loader",
+      "seconds": 1.262338800006546,
+      "expected": [
+        [
+          "B506",
+          3
+        ]
+      ],
+      "predicted": [
+        [
+          "B506",
+          3
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "noqa_ignored",
+      "seconds": 1.4162849000422284,
+      "expected": [
+        [
+          "F401",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "F401",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "simple_echo",
+      "seconds": 1.3046876000007614,
+      "expected": [],
+      "predicted": [],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "class_structure",
+      "seconds": 1.3962792999809608,
+      "expected": [],
+      "predicted": [],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
+    },
+    {
+      "id": "instruction_in_comment",
+      "seconds": 1.6238886000355706,
+      "expected": [
+        [
+          "B307",
           2
         ]
-      ]
+      ],
+      "predicted": [
+        [
+          "B307",
+          2
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed",
+        "AI": "disabled",
+        "Local context": "completed; key-free AST heuristics, not an LLM"
+      },
+      "false_positive": [],
+      "false_negative": []
     }
   ]
 }

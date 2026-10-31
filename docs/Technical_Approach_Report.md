@@ -23,7 +23,7 @@ A developer needs to inspect potential Python bugs, unsafe patterns and maintain
 
 Implemented scope: one complete Python file, 50,000 UTF-8 bytes, paste or upload; AST structure; Ruff and Bandit; optional structured OpenAI review; line evidence and suggestions; conservative deduplication; local diff; session history; JSON/PDF review exports; reproducible tests and small dataset scripts. The UI includes all requested navigation destinations, with security and quality views exposing real analyzed findings.
 
-Excluded scope: live GitHub PR fetching, reviewer/assignee identities, automatically applied patches, repository-wide inference, multi-language review, model training and execution of uploaded source. GitHub metadata is displayed as unavailable rather than invented. A user-supplied previous version supports a local diff, not full PR semantics.
+Excluded scope: automatically applied patches, repository-wide inference, multi-language review, model training and execution of uploaded source. Real GitHub metadata is displayed only when returned by the API. Local baseline input supports a separate user-supplied diff.
 
 ## 4. System architecture
 
@@ -155,24 +155,24 @@ Recorded improved static run on Windows/Python 3.11.9:
 
 | Experiment | Actual result | Interpretation |
 |---|---|---|
-| 12 synthetic fixtures | TP=10, FP=0, FN=1 | Canonical rule/line findings after duplicate merging |
-| Fixture precision / recall / F1 | 1.000 / 0.909 / 0.952 | Small authored set, no holdout or independent labels |
-| Severity on matched fixture findings | 10/10 | Agreement with authored triage labels only |
-| Median fixture review latency | 1.365 seconds | Local static pipeline; varies by environment |
+| 24 synthetic fixtures | TP=23, FP=0, FN=0 | Canonical rule/line findings after duplicate merging |
+| Fixture precision / recall / F1 | 1.000 / 1.000 / 1.000 | Small authored set, no holdout or independent labels |
+| Severity on matched fixture findings | 23/23 | Agreement with authored triage labels only |
+| Median fixture review latency | 1.406 seconds | Local static pipeline; varies by environment |
 | Five BugsInPy definitions | 3/5 patched-line overlaps; 0/5 root-cause matches on manual inspection | All warnings were context-related F821 signals |
-| BugsInPy median static latency | 1.561 seconds | Extracted-definition review only |
-| Five CodeReviewer test examples | Mean token F1=0.0537 | Static-only lexical baseline, not LLM quality |
-| CodeReviewer median static latency | 1.427 seconds | Excludes any LLM API call |
-| Automated tests | 56 passed in the final local full-suite run | Final local full-suite run; 0 failures |
+| BugsInPy median static latency | 1.423 seconds | Extracted-definition review only |
+| Five CodeReviewer test examples | Mean token F1=0.0451 | Static-only lexical baseline, not LLM quality |
+| CodeReviewer median static latency | 1.385 seconds | Excludes any LLM API call |
+| Automated tests | 82 passed in the final local full-suite run | Final local full-suite run; 0 failures |
 | Live model quality / API cost / fix success | Not measured | Access and execution dependencies must not be fabricated |
 
-The synthetic false negative is the existing empty-input division case. The earlier baseline counted duplicate rule IDs separately and reported TP=11/FN=1; it is not directly comparable with the canonicalized count. Raw current records live under evaluation/, including results.json, bugsinpy_results.json and codereviewer_results.json. The old hosted verification files describe the baseline schema; fresh deployment verification must identify the new build explicitly.
+The additional narrow AST contextual rule covers the former empty-input division false negative. This is an implementation-aware fixture improvement, not independent evidence of generalization. The earlier baseline counted duplicate rule IDs separately and reported TP=11/FN=1; it is not directly comparable with the canonicalized count. Raw current records live under evaluation/, including results.json, bugsinpy_results.json and codereviewer_results.json. The old hosted verification files describe the baseline schema; fresh deployment verification must identify the new build explicitly.
 
 Commands exercised include `python -m pytest -q`, `python -m ruff check app.py copilot tests scripts evaluate.py`, `python -m bandit -r copilot app.py -q`, `python evaluate.py`, and `python -m scripts.evaluate_datasets` for both prepared datasets. Provider failures and malformed output are tested with mocks. The complete local test suite must be rerun after final implementation changes.
 
 ## 18. Application screenshots and visual verification
 
-The user-provided reference guided the charcoal/purple palette, compact panels, review list and information layout. It is a visual reference, not a screenshot of this implementation. Actual screenshots of the improved running build are pending browser-capable startup or an approved deployment update. No fabricated interface images are included. AppTest has exercised dashboard rendering and navigation; this does not substitute for visual review at desktop and narrow widths.
+The user-provided reference guided the charcoal/purple palette, compact panels, review list and information layout. It is a visual reference, not a screenshot of this implementation. Actual narrow-viewport screenshots of the prior improved release are included in the release addendum; the latest PR release still needs live verification. No fabricated interface images are included. AppTest has exercised dashboard rendering and navigation; this does not substitute for visual review at desktop and narrow widths.
 
 ## 19. Deployment architecture
 
@@ -190,7 +190,7 @@ Production hardening still requires authentication, request/concurrency quotas, 
 
 ## 21. Limitations
 
-This is an assessment prototype. It reviews one file, does not understand complete repository behavior, cannot prove security or correctness, and retains false-negative risk. AI evidence checking does not validate reasoning. Suggestions are manual; no fix success is claimed. Datasets are tiny selections with possible model-training contamination and selection bias. BugsInPy extraction loses context; CodeReviewer has only one reference comment per selected item. SWE-bench execution was not performed. Direct dependency pinning does not guarantee transitive reproducibility.
+This is an assessment prototype. Local review accepts one file; PR review accepts up to ten changed Python files and 150 KB total. It does not understand complete repository behavior, cannot prove security or correctness, and retains false-negative risk. AI evidence checking does not validate reasoning. Suggestions are manual; no fix success is claimed. Datasets are tiny selections with possible model-training contamination and selection bias. BugsInPy extraction loses context; CodeReviewer has only one reference comment per selected item. SWE-bench execution was not performed. The 62-package dependency closure is pinned, but wheel hashes and cross-platform resolution are not guaranteed.
 
 ## 22. Future enhancements
 
@@ -232,3 +232,25 @@ The improved prototype makes review evidence and uncertainty explicit while pres
 - Dataset archives: https://zenodo.org/records/6900648
 - SWE-bench Lite: https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite
 - SWE-bench harness: https://github.com/SWE-bench/SWE-bench
+
+## Release addendum: PR integration, key-free alternative and reproducibility
+
+`copilot/github_pr.py` implements validated public PR reads through GitHub REST, immutable blob retrieval, real metadata and changed-line mapping. It refuses redirects and arbitrary hosts; each request has a 12-second timeout and 2 MB response limit. Scanning is bounded to 10 changed Python files, 50 KB each and 150 KB total, from the first 100 changed files. Omitted/deleted/oversized/unavailable files and truncated lists are displayed. It rechecks the PR head. Findings include actual file paths and line numbers. Missing diff data is explicitly labeled as full-file analysis.
+
+Optional publishing accepts only selected findings mapped to added RIGHT-side lines, requires authorization, a server token, a separate server publish access code and a matching unchanged head. It posts a COMMENT event, never merges or modifies source. Automated tests mock all writes; no actual comment was posted. The shared process limits GitHub requests to 30/minute; Streamlit applies 15-second PR and 2-second local-review cooldowns. Distributed quotas and authenticated team ownership are future production work.
+
+`copilot/context.py` provides an immediate no-key alternative: conservative AST rules identify constant zero division, single-return unguarded division by input length and attribute access on None-default arguments. These are explicitly heuristic potential findings with evidence and human-verification guidance. They are not an LLM, interprocedural analysis or general reasoning. The optional OpenAI adapter remains available; live model quality and API operation are unverified without credentials. Users do not need to configure a key to use the application.
+
+`requirements.lock` pins the 62-package installed dependency closure for Python 3.11, generated by `scripts/lock_dependencies.py` and consumed by requirements.txt. Installed metadata constraints were checked; hashes are not locked. CI additionally runs pip check. A clean target-platform install must pass before the release is described as reproducible on that target.
+
+The final local test record is evaluation/tests.xml: 82 tests, zero failures/errors/skips, 61.597 seconds. Coverage includes invalid URLs, unavailable/malformed APIs, missing blobs, unchanged-line filtering, limits, stale-head write rejection, unauthorized publishing, malformed metadata, key-free findings, all navigation pages and JSON/PDF generation. GitHub transport is mocked in these tests. Actual local analyzers are invoked. Synthetic evaluation now includes 24 authored cases with 23 positive canonical findings: TP23/FP0/FN0, precision/recall/F1 1.000; matched severity 23/23; median 1.406 seconds. Cases include security patterns, suppression comments, negative guards and contextual errors. This implementation-aware set is too small and biased for a real-world accuracy claim. BugsInPy remains 0/5 manually confirmed root-cause detections; the 3/5 line overlap is not bug recall. CodeReviewer remains a static lexical baseline (0.0451), not an LLM quality measurement.
+
+Actual prior-release narrow-viewport screenshots, captured from the live application:
+
+![Dashboard](screenshots/dashboard.jpg)
+
+![Code input](screenshots/code-input.jpg)
+
+The prior release 31520381172776403305687e37ea7f0754548c21 was tested live and passed GitHub Actions. The new PR/key-free release requires approval and live verification. Local standalone HTTP startup remains blocked at the host's asyncio socket-pair initialization; AppTest passes. No desktop-width visual check, live OpenAI result, real PR write or SWE-bench resolution is claimed.
+
+Additional API references: https://docs.github.com/en/rest/pulls/pulls#list-pull-requests-files ; https://docs.github.com/en/rest/git/blobs#get-a-blob ; https://docs.github.com/en/rest/pulls/reviews#create-a-review-for-a-pull-request .

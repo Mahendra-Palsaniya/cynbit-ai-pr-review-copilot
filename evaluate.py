@@ -10,6 +10,15 @@ from copilot.review import review_code
 
 ROOT = Path(__file__).parent
 SEVERITY = {
+    "ZERO_DENOMINATOR": "medium",
+    "NONE_DEFAULT_ATTRIBUTE": "medium",
+    "B404": "low",
+    "B602": "high",
+    "B403": "low",
+    "B301": "medium",
+    "B105": "low",
+    "B603": "low",
+    "B506": "medium",
     "F401": "low",
     "F821": "high",
     "MUTABLE_DEFAULT": "medium",
@@ -63,7 +72,7 @@ def main():
             }
         )
     output = {
-        "dataset": "12 hand-authored synthetic cases; no training or holdout",
+        "dataset": f"{len(cases)} hand-authored synthetic cases; no training or holdout",
         "unit": "Unique (canonical rule ID, line_start) finding per file; E722 and BARE_EXCEPT merged",
         "llm": "not evaluated by this script",
         "python": platform.python_version(),

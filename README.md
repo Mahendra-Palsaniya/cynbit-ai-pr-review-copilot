@@ -25,7 +25,7 @@ The original assessment requires exactly an AI Opportunity Report, a functional 
 - Overview, Findings, Code Diff, Security, Code Quality and Suggestions tabs.
 - Severity/category filters; optional local baseline diff; real session history when opted in.
 - Downloadable JSON and generated PDF reviews. Exports include source evidence.
-- No source execution, automatic code edits, PR writes or automatic merging.
+- No source execution, automatic code edits or automatic merging. Optional selected PR comments require explicit authorization and server-side access controls.
 
 ## Screenshots
 
@@ -50,7 +50,7 @@ flowchart LR
 
 ## Technology stack
 
-Python 3.11; Streamlit 1.56.0; Ruff 0.14.3; Bandit 1.8.6; Pydantic 2.13.4; OpenAI SDK 2.7.1; ReportLab 5.0.1; pytest 8.4.2. Direct requirements are pinned. Transitive packages are not locked. No model training or model checkpoint download is needed.
+Python 3.11; Streamlit 1.56.0; Ruff 0.14.3; Bandit 1.8.6; Pydantic 2.13.4; OpenAI SDK 2.7.1; ReportLab 5.0.1; pytest 8.4.2. All 62 packages in the installed dependency closure are pinned in requirements.lock, included by requirements.txt. The lock is not hash-locked; clean target-platform CI remains necessary. No model training or model checkpoint download is needed.
 
 ## Folder structure
 
@@ -61,6 +61,8 @@ copilot/
   models.py                    Review and AI schemas
   review.py                    AST, analyzer adapters, orchestration
   ai.py                        Optional structured contextual reviewer
+  context.py                   Key-free contextual AST heuristics
+  github_pr.py                 Bounded PR fetching and guarded COMMENT publishing
   aggregation.py               Conservative duplicate removal
   export.py                    Escaped PDF exports
   config.py                    Supported local credentials lookup
@@ -94,7 +96,7 @@ On Linux/macOS, substitute `.venv/bin/python` for `.venv/Scripts/python`. Until 
 
 ## API key configuration
 
-Static analysis needs no API key. To enable the optional provider, create `.streamlit/secrets.toml` locally or use Streamlit Community Cloud's Secrets settings:
+**No API key is required for normal use.** AST, Ruff, Bandit and narrow contextual AST heuristics work immediately. The heuristic checks are not an LLM and do not offer general language-model reasoning. Leave the AI checkbox off if you cannot configure a key. To enable the optional provider, create `.streamlit/secrets.toml` locally or use Streamlit Community Cloud's Secrets settings:
 
 ```toml
 OPENAI_API_KEY = "replace-with-your-own-key"
@@ -108,14 +110,14 @@ The provider/model must be available to your API account and may incur usage cha
 ## How to use
 
 1. Open Code Review, enter a filename and paste complete Python or upload a .py file.
-2. Optionally provide the previous version for a local diff. This does not fetch a GitHub PR.
+2. Optionally provide the previous version for a local diff. For a real PR, use the separate Pull Requests page.
 3. Leave AI disabled for a deterministic review, or explicitly consent to provider processing.
 4. Submit and inspect real tool completion status, summary and findings.
 5. Filter severity/category and inspect quoted code plus the affected line range.
 6. Review suggestions manually. Download JSON or PDF when needed.
 7. Enable history in Settings to keep up to ten reviews in session memory. Clear reviews from the sidebar.
 
-Current input and results remain in session memory; historical retention is opt-in. No code database is used. Filenames, authors, branches, reviewers and commit details are never invented. Pull Requests explains the unconfigured integration and supports the same local-file workflow.
+Current input and results remain in session memory; historical retention is opt-in. No code database is used. Filenames, authors, branches, reviewers and commit details are never invented. Pull Requests accepts a real public GitHub PR URL and retrieves metadata, diffs and bounded Python source at the changed blob SHA.
 
 ## Dataset information and acquisition
 
@@ -164,15 +166,15 @@ Recorded improved static run on 31 October 2026:
 
 | Experiment | Actual measured result |
 |---|---|
-| 12 synthetic fixtures | TP 10, FP 0, FN 1 |
-| Precision / recall / F1 | 1.000 / 0.909 / 0.952 |
-| Matched severity agreement | 10/10 authored triage labels |
-| Median fixture static latency | 1.365 s on the recorded Windows/Python environment |
+| 24 synthetic fixtures | TP 23, FP 0, FN 0 |
+| Precision / recall / F1 | 1.000 / 1.000 / 1.000 |
+| Matched severity agreement | 23/23 authored triage labels |
+| Median fixture static latency | 1.406 s on the recorded Windows/Python environment |
 | Five BugsInPy definitions | 3/5 changed-line overlaps; 0/5 manually inspected root-cause matches |
-| Five CodeReviewer test examples | Static-only mean lexical token F1 0.0537; not semantic correctness |
+| Five CodeReviewer test examples | Static-only mean lexical token F1 0.0451; not semantic correctness |
 | Live AI quality, API cost, fix success | Not measured in the current recorded static run |
 
-The synthetic set is tiny, authored with implementation knowledge and has no holdout. One empty-input semantic defect remains missed. The old baseline counted overlapping rules separately, so its headline counts are not directly comparable. BugsInPy full tests were not executed. Word overlap with one human comment does not establish useful review quality. No productivity savings or Cynbit ROI were measured.
+The synthetic set is tiny, authored with implementation knowledge and has no holdout. Narrow key-free AST contextual rules now cover the authored empty-input division case; this is not general semantic reasoning. The old baseline counted overlapping rules separately, so its headline counts are not directly comparable. BugsInPy full tests were not executed. Word overlap with one human comment does not establish useful review quality. No productivity savings or Cynbit ROI were measured.
 
 See the Technical Approach Report for limitations and raw JSON files in evaluation/. A machine-readable result file is evidence, not an extra report document.
 
@@ -201,7 +203,7 @@ The prototype is not a hardened hostile-input service: AST parsing is in-process
 
 ## Future scope
 
-Independently annotated evaluations, blinded human comment grading, isolated historical test environments, authenticated and rate-limited deployment, least-privilege GitHub integration, changed-line mapping and multi-file context. No automatic merge feature is planned without explicit authorization.
+Independently annotated evaluations, blinded human comment grading, isolated historical test environments, authenticated and rate-limited deployment, a least-privilege GitHub App, deeper repository context and independently validated changed-line recall. No automatic merge feature is planned without explicit authorization.
 
 ## Reports
 
@@ -222,3 +224,23 @@ Prior report copies are preserved in Git history and a local working backup; red
 - Dataset links and licensing caveats: see the acquisition sections above.
 
 No license grant for this assessment's original code is assumed; choose an appropriate project license before redistribution beyond your intended submission.
+
+## Real GitHub PR review and key-free operation
+
+Open **Pull Requests**, paste `https://github.com/OWNER/REPOSITORY/pull/NUMBER`, and submit. Public PR reading requires no token. The client validates the exact GitHub host, refuses redirects, fetches immutable blobs, limits each file to 50 KB, and reviews at most 10 Python files / 150 KB from the first 100 changed files. Skips and truncation are explicit. Findings are restricted to added lines where a patch is available; missing patches are labeled as full-file review. A changed head is rejected. Complete file content is analyzed without execution.
+
+The default key-free path adds evidence-backed AST heuristics for constant zero denominators, unguarded single-return division by input length, and attribute access on a None-default argument. External caller contracts may make these safe; verify the suggestion. This is an alternative for users unable to configure an API key, not a claim of LLM functionality.
+
+Optional private PR access uses a server-side `GITHUB_TOKEN` with read-only repository contents and PR access. Publishing additionally needs PR-write permission, a separately configured `GITHUB_PUBLISH_CODE`, selected mapped findings, an access-code challenge, an explicit authorization checkbox, and a fresh unchanged-head check. The application posts COMMENT reviews only; no approval, request-changes, merge or source edit is performed. Configure these values in Streamlit Secrets or environment variables, never in source or chat. Leave them unset for safe public read-only use. Do not grant a shared public app unrestricted repository write access.
+
+GitHub reads use a 12-second timeout, a 2 MB response limit and 30 requests/minute per application process. UI cooldowns are 15 seconds for PR fetches and 2 seconds for local reviews. These are prototype controls, not distributed abuse protection.
+
+## Recorded release verification
+
+The prior release `31520381172776403305687e37ea7f0754548c21` was verified live on Streamlit Community Cloud; its GitHub Actions run succeeded. This new PR/key-free release has **82 passed, 0 failed, 0 skipped** local tests (61.597 seconds), with mocked GitHub network/publishing tests and actual AST/Ruff/Bandit execution. Live PR networking and clean installation of the new lock must still be checked after approved publication. No live OpenAI call or real comment publication is claimed.
+
+Actual narrow-viewport screenshots of the running prior release:
+
+![Dashboard](docs/screenshots/dashboard.jpg)
+
+![Code review input](docs/screenshots/code-input.jpg)
