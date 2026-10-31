@@ -1,0 +1,8 @@
+import os
+
+def collect(value, items=[]):
+    items.append(value)
+    return items
+
+def calculate(expression):
+    return eval(expression)

@@ -1,0 +1,261 @@
+{
+  "dataset": "12 hand-authored synthetic cases; no training; no holdout",
+  "matching": "exact unique (rule ID, line); all returned rules counted",
+  "llm": "not evaluated; no API key required or used",
+  "python": "3.11.9",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "versions": {
+    "ruff": "0.14.3",
+    "bandit": "1.8.6",
+    "streamlit": "1.56.0"
+  },
+  "tp": 11,
+  "fp": 0,
+  "fn": 1,
+  "precision": 1.0,
+  "recall": 0.9166666666666666,
+  "median_seconds": 1.1290879999869503,
+  "cases": [
+    {
+      "id": "clean_add",
+      "seconds": 1.1355729999486357,
+      "expected": [],
+      "predicted": [],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "clean_default",
+      "seconds": 1.2355712000280619,
+      "expected": [],
+      "predicted": [],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "unused_import",
+      "seconds": 1.1603814999107271,
+      "expected": [
+        [
+          "F401",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "F401",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "undefined",
+      "seconds": 1.1378321999218315,
+      "expected": [
+        [
+          "F821",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "F821",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "mutable_list",
+      "seconds": 1.122603000025265,
+      "expected": [
+        [
+          "MUTABLE_DEFAULT",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "MUTABLE_DEFAULT",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "mutable_keyword",
+      "seconds": 1.094800499966368,
+      "expected": [
+        [
+          "MUTABLE_DEFAULT",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "MUTABLE_DEFAULT",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "bare_except",
+      "seconds": 1.247586900019087,
+      "expected": [
+        [
+          "B110",
+          3
+        ],
+        [
+          "BARE_EXCEPT",
+          3
+        ],
+        [
+          "E722",
+          3
+        ]
+      ],
+      "predicted": [
+        [
+          "B110",
+          3
+        ],
+        [
+          "BARE_EXCEPT",
+          3
+        ],
+        [
+          "E722",
+          3
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "eval",
+      "seconds": 1.0862412999849766,
+      "expected": [
+        [
+          "B307",
+          2
+        ]
+      ],
+      "predicted": [
+        [
+          "B307",
+          2
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "assert",
+      "seconds": 1.0506337000988424,
+      "expected": [
+        [
+          "B101",
+          2
+        ]
+      ],
+      "predicted": [
+        [
+          "B101",
+          2
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "syntax",
+      "seconds": 0.00021989992819726467,
+      "expected": [
+        [
+          "SYNTAX",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "SYNTAX",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "invalid input"
+      }
+    },
+    {
+      "id": "nosec",
+      "seconds": 1.158098499989137,
+      "expected": [
+        [
+          "B307",
+          1
+        ]
+      ],
+      "predicted": [
+        [
+          "B307",
+          1
+        ]
+      ],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    },
+    {
+      "id": "semantic_blindspot",
+      "seconds": 1.066527200047858,
+      "expected": [
+        [
+          "EMPTY_INPUT_DIVISION",
+          2
+        ]
+      ],
+      "predicted": [],
+      "status": {
+        "AST": "completed",
+        "ruff": "completed",
+        "bandit": "completed"
+      }
+    }
+  ]
+}

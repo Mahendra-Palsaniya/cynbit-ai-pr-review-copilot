@@ -1,0 +1,14 @@
+[
+  {"id":"clean_add","code":"def add(a, b):\n    return a + b\n","expected":[]},
+  {"id":"clean_default","code":"def collect(value, items=None):\n    if items is None:\n        items = []\n    items.append(value)\n    return items\n","expected":[]},
+  {"id":"unused_import","code":"import os\n","expected":[["F401",1]]},
+  {"id":"undefined","code":"print(missing_value)\n","expected":[["F821",1]]},
+  {"id":"mutable_list","code":"def collect(items=[]):\n    return items\n","expected":[["MUTABLE_DEFAULT",1]]},
+  {"id":"mutable_keyword","code":"def collect(*, items={}):\n    return items\n","expected":[["MUTABLE_DEFAULT",1]]},
+  {"id":"bare_except","code":"try:\n    print(1)\nexcept:\n    pass\n","expected":[["BARE_EXCEPT",3],["E722",3],["B110",3]]},
+  {"id":"eval","code":"def calculate(text):\n    return eval(text)\n","expected":[["B307",2]]},
+  {"id":"assert","code":"def check(value):\n    assert value\n","expected":[["B101",2]]},
+  {"id":"syntax","code":"def broken(\n","expected":[["SYNTAX",1]]},
+  {"id":"nosec","code":"eval('1')  # nosec\n","expected":[["B307",1]]},
+  {"id":"semantic_blindspot","code":"def average(values):\n    return sum(values) / len(values)\n","expected":[["EMPTY_INPUT_DIVISION",2]]}
+]

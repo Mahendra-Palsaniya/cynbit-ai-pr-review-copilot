@@ -1,0 +1,1 @@
+"""Cynbit assessment prototype."""
